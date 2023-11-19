@@ -33,6 +33,7 @@ define(function (require) {
             scope: '/'
         })
         .then(function (registeration) {
+            // debugger
             console.log('Service worker register success with scope ' + registeration.scope);
         });
 

@@ -13,8 +13,9 @@ let CACHE_URLS = [
     '/js/ui.js',
     '/js/render.js',
     '/img/logo.png '
-];
+]; // 缓存列表
 
+console.log(caches, 'caches') // CacheStorage对象
 /**
  * 缓存到 cacheStorage 里
  *
@@ -79,13 +80,15 @@ self.addEventListener('install', function (event) {
 self.addEventListener('activate', function (event) {
     event.waitUntil(
         Promise.all([
-            self.clients.claim(),
+            self.clients.claim(), // 使客户端获取新的 ServiceWorker
             clearStaleCache()
         ])
     );
 });
 
+// 处理请求
 self.addEventListener('fetch', function (event) {
+    console.log('request被拦截', event, event.request.url);
 
     // 只对同源的资源走 sw，cdn 上的资源利用 http 缓存策略
     if (new URL(event.request.url).origin !== self.origin) {
@@ -93,6 +96,7 @@ self.addEventListener('fetch', function (event) {
     }
 
     if (event.request.url.includes('/api/movies')) {
+        // 不要拿第一次的结构，而是更新缓存
         event.respondWith(
             fetchAndCache(event.request)
                 .catch(function () {
@@ -101,7 +105,8 @@ self.addEventListener('fetch', function (event) {
         );
         return;
     }
-
+    
+    // 优先从网络上加载 失败了就去取缓存
     event.respondWith(
         fetch(event.request).catch(function () {
             return caches.match(event.request);
