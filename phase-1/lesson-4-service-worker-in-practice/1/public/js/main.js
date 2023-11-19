@@ -19,13 +19,21 @@ define(function (require) {
     });
 
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function (event) {
-            navigator.serviceWorker.register('/sw.js', {
-                    scope: '/'
-                })
-                .then(function (registeration) {
-                    console.log('Service worker register success with scope ' + registeration.scope);
-                });
+        // window.addEventListener('load', function (event) {
+        //     // todo 注册
+        //     navigator.serviceWorker.register('/sw.js', {
+        //             scope: '/'
+        //         })
+        //         .then(function (registeration) {
+        //             console.log('Service worker register success with scope ' + registeration.scope);
+        //         });
+        // });
+
+        navigator.serviceWorker.register('/sw.js', {
+            scope: '/'
+        })
+        .then(function (registeration) {
+            console.log('Service worker register success with scope ' + registeration.scope);
         });
 
         navigator.serviceWorker.oncontrollerchange = function (event) {

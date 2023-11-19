@@ -4,5 +4,6 @@
   },
   "dependencies": {
     "express": "^4.16.3"
-  }
+  },
+  "repository": "git@github.com:David-Liu5460/pwa-lesson-demo.git"
 }
